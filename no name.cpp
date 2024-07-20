@@ -62,22 +62,26 @@ ll numberOfDivisors(ll n)
     return ans*all;
 }
 // //////////////
-void compress(vector<ll>&a,int start)
-{
-    int n=a.size();
-    vector<pair<ll,ll>>pairs(n);
-    for(int i=0;i<n;i++)
+struct coordinateCopmression{
+private:
+    vector<ll>init;
+    void compress(vector<ll>&v)
     {
-        pairs[i]={a[i],i};
+        sort(v.begin(),v.end());
+        v.erase(unique(v.begin(),v.end()),v.end());
     }
-    sort(pairs.begin(),pairs.end());
-    int nxt=start;
-    for(int i=0;i<n;i++)
+public:
+    coordinateCopmression(vector<ll>&v)
     {
-        if(i>0&&pairs[i-1].first!=pairs[i].first)
-        {
-            nxt++;
-        }
-        a[pairs[i].second]=nxt;
+        init=v;
+        compress(init);
     }
-}
+    int index(ll val)
+    {
+        return lower_bound(init.begin(),init.end(),val)-init.begin();
+    }
+    ll initVal(int idx)
+    {
+        return init[idx];
+    }
+};
